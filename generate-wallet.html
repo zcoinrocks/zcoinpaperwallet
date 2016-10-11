@@ -120,9 +120,16 @@ function setCryptoCurrency(toThis) {
 		window.compressedWIFPrefix = 'c';
 		document.title = 'Bitcoin TESTNET paper wallet generator';
 		break;
+	case 'ZCoin':
+		window.networkVersion = 0x52;
+	  window.privateKeyPrefix = 0x52 + 128;
+	  window.WIFPrefix = 'X'; // TODO: Unknown
+	  window.compressedWIFPrefix = '[LK]'; // TODO: Unknown
+		document.title = 'ZCoin paper wallet generator';
+	  break;
 	default:
-	  alert ('Invalid cryptocurrency "' + toThis + '" at initialization. Defaulting to Bitcoin.');
-	  setCryptoCurrency('Bitcoin');
+	  alert ('Invalid cryptocurrency "' + toThis + '" at initialization. Defaulting to ZCoin.');
+	  setCryptoCurrency('ZCoin');
 	} // eof switch
 	return (true);
 }
@@ -147,8 +154,11 @@ switch (myDesign) {
 	case 'alt-testnet':
 		setCryptoCurrency('Testnet');
 		break;
+	case 'zcoin':
+		setCryptoCurrency('ZCoin');
+		break;
 	default:
-	setCryptoCurrency('Bitcoin');
+	setCryptoCurrency('ZCoin');
 	window.suppliesURL = 'https://bitcoinpaperwallet.com/#purchase'; // remove special currency flag
 }
 
@@ -10514,6 +10524,7 @@ Bitcoin.Util = {
 						<span id="instructions2">
                         <p style="margin-top: 0;"><strong>Change your wallet's design, language, or cryptocurrency here:</strong>
                           <select name="designPicker" id="designPicker" style="font-size: 12px;" onChange="setDesign(this.value, false);">
+														<option value="zcoin">Standard ZCoin Design</option>
                             <option value="default">Standard Bitcoin Design</option>
                             <option value="blackwhite">Black &amp; White Bitcoin</option>
                             <option value="holiday">Holiday / Christmas Bitcoin (English)</option>
@@ -10527,7 +10538,7 @@ Bitcoin.Util = {
                             <option value="counterparty">Counterparty XCP</option>
                             <option value="alt-testnet">"Testnet"</option>
                           </select>
-                          <select name="langPicker" id="langPicker" style="font-size: 12px; display: inline;" onChange="setDesign('default', false, this.value);">
+                          <select name="langPicker" id="langPicker" style="font-size: 12px; display: inline;" onChange="setDesign('zcoin', false, this.value);">
                             <option value="english">English</option>
                             <option value="chinese">Chinese</option>
                             <option value="traditional-chinese">Chinese (Traditional)</option>
@@ -13771,7 +13782,7 @@ function setDesign (whichDesign, isOnLoad, whichLanguage) {
 
 	drawOpts.text = translations[whichLanguage];
 
-	if (!whichDesign) whichDesign = 'default';
+	if (!whichDesign) whichDesign = 'zcoin';
 
 	// show the language menu if we're using the default design
 	if (whichDesign == 'default') {
